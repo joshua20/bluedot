@@ -1,0 +1,27 @@
+<!-- myapp/templates/myapp/raster_map.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raster Map</title>
+    <!-- Include Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="sha512-xodsoNwVYOj+z5nVtqg6TmUfl5jMzvS3EdPzh3TtHRt+1QI34M+Ino7TdlRX7kM8PzUz2o37CtCL29z3dC7DU0A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="sha512-pbziRSZSjPGu7ZZMRcKw1j6/NuLgDVKy5vKn4W8pamOiD1hUZjZFaFwDsk3sDnmYK6x2z07CJMEYr2hxI2Jo9A==" crossorigin=""></script>
+</head>
+<body>
+    <div id="map" style="height: 500px;"></div>
+
+    <script>
+        var rasterUrl = "{{ raster_data.raster.url }}";
+
+        var map = L.map('map').setView([{{ raster_data.raster.centroid.y }}, {{ raster_data.raster.centroid.x }}], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.imageOverlay(rasterUrl, [{{ raster_data.raster.extent.1 }}, {{ raster_data.raster.extent.0 }}], [{{ raster_data.raster.extent.3 }}, {{ raster_data.raster.extent.2 }}]).addTo(map);
+    </script>
+</body>
+</html>
